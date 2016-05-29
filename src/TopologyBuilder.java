@@ -11,11 +11,13 @@ public class TopologyBuilder {
     routers.add(c);
     routers.add(d);
 
-    routers.connect(a, b, 10);
-    routers.connect(b, c, 8);
-    routers.connect(b, d, 7);
-    routers.connect(c, d, 9);
-    routers.connect(d, a, 12);
+    a.connect(b, 10);
+    b.connect(c, 8);
+    b.connect(d, 7);
+    c.connect(d, 9);
+    d.connect(a, 12);
+
+    routers.sendPackage(a, d);
   }
 
 }

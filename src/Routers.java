@@ -2,11 +2,11 @@ import java.util.*;
 
 public class Routers {
   private Vector<Router> routers;
-  private Vector<Connection> connections;
+  private Router from;
+  private Router to;
 
   public Routers(){
     this.routers = new Vector<>();
-    this.connections = new Vector<>();
   }
 
   public void add(Router router){
@@ -23,8 +23,38 @@ public class Routers {
     return null;
   };
 
-  public void connect(Router router1, Router router2, int distance){
-    this.connections.addElement(new Connection(router1, router2, distance));
+  public void initRoutingTables(){
+    for (Router router : this.routers) {
+      router.initRoutingTable(this.routers);
+    }
+  }
+
+  public void printRoutingTables(){
+    System.out.println("           Routing table");
+    for (Router router : this.routers) {
+      System.out.print("\t" + router.getName());
+    }
+    System.out.println();
+
+    for (Router router : this.routers) {
+      router.printRoutingTable();
+    }
+  }
+
+  public void sendPackage(Router from, Router to){
+    this.from = from;
+    this.to = to;
+  }
+
+  public boolean movePackage(){
+    System.out.println("Moving package from: " + from.getName());
+    this.from.updateRoutingTable();
+
+    Router next = from.getNearestRouter();
+    System.out.println("Moving to: " + next.getName());
+    this.from = next;
+
+    return from.equals(to);
   }
 
 }
